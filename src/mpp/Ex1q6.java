@@ -2,12 +2,13 @@ package mpp;
 
 public class Ex1q6 {
 
-	private static int counter = 0;
+	private static int counter;
 
 	public static void main(String[] args) throws InterruptedException {
 
 		int numThreads = Integer.parseInt(args[0]);
 		Thread[] threads = new Thread[numThreads];
+		counter = 0;
 
 		for (int i = 0; i < numThreads; i++)
 			threads[i] = new Thread() {

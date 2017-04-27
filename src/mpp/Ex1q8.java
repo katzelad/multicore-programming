@@ -4,12 +4,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Ex1q8 {
 
-	private static AtomicInteger counter = new AtomicInteger();
+	private static AtomicInteger counter;
 
 	public static void main(String[] args) throws InterruptedException {
 
 		int numThreads = Integer.parseInt(args[0]);
 		Thread[] threads = new Thread[numThreads];
+		counter = new AtomicInteger();
 
 		for (int i = 0; i < numThreads; i++)
 			threads[i] = new Thread() {
