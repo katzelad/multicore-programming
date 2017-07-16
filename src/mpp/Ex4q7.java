@@ -2,20 +2,16 @@ package mpp;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import mpp.Ex3q7.PriorityQueue;
-
 public class Ex4q7 {
-
+	
 	private static class Edge {
 
 		private final int weight;
-		private final Node dest;
+		private final int dest;
 
-		private Edge(int weight, Node dest) {
+		private Edge(int weight, int dest) {
 			this.weight = weight;
 			this.dest = dest;
 		}
@@ -33,14 +29,18 @@ public class Ex4q7 {
 	}
 
 	public static void main(String[] args) throws Exception {
+		
+		final String[] lines = Files.readAllLines(Paths.get(args[1])).toArray(new String[0]);
+		final int numThreads = Integer.parseInt(args[0]);
+		final String[] header = lines[0].split(" ");
+		final int numNodes = Integer.parseInt(header[2]), numEdges = Integer.parseInt(header[3]);
+		final List<Node>[] nodes = new List<Node>[numNodes];
 
 		class GraphBuilderThread extends Thread {
 
-			private final String[] lines;
 			private final int from, to;
 
-			public GraphBuilderThread(String[] lines, int from, int to) {
-				this.lines = lines;
+			public GraphBuilderThread(int from, int to) {
 				this.from = from;
 				this.to = to;
 			}
@@ -50,18 +50,13 @@ public class Ex4q7 {
 				for (int i = from; i < to; i++) {
 					String[] line = lines[i].split(" ");
 					int src = Integer.parseInt(line[1]), dst = Integer.parseInt(line[2]),
-							weight = Integer.parseInt(line[3]);
-					Edge edge = new Edge(weight, dst);
+							weight = Integer.parseInt(line[3]), hc = Integer.hashCode(src);
 					
+					new Edge(weight, dst);
 				}
 			}
 
 		}
-
-		int numThreads = Integer.parseInt(args[0]);
-		String[] lines = Files.readAllLines(Paths.get(args[1])).toArray(new String[0]);
-		String[] header = lines[0].split(" ");
-		int numNodes = Integer.parseInt(header[2]), numEdges = Integer.parseInt(header[3]);
 
 		Thread[] threads = new Thread[numThreads];
 		for (int i = 0; i < numThreads; i++)
